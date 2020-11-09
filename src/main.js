@@ -4,8 +4,17 @@ import App from '@/App.vue' // @ permet d'accéder directement au dossier src di
 
 Vue.config.productionTip = false
 
-console.log(App);
-
 new Vue({
   render: h => h(App),
 }).$mount('#Ongaku')
+
+// const router = new VueRouter({
+//   routes:[
+//     {
+//       path: 'New Album',
+//       components: {
+//         default: AlbumsInfos
+//       }
+//     }
+//   ]
+// })

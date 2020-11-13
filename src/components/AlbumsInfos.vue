@@ -1,16 +1,18 @@
 
 <template>
     <div class="container w-4/5 m-auto mt-8">
+
         <ul v-if="releases.length > 0">
             <template v-for="release in releases">
                 <li v-if="release.album_type === 'album'" :key="release.id" class="flex justify-between p-4 text-2xl border-t border-green-500">
                     <div class="flex flex-col justify-between">
 
-                        <div>
+                        <div class="max-w-md">
                             <div class="album_name">
                                 {{release.name}} 
                             </div>
                             <ul class="artist_name text-base">
+                                
                                 <!-- Si plusieurs artistes, ajouter une virgule, les uns à la suite des autres -->
                                 <li v-for="artist in release.artists" :key="artist.id">
                                     Artist: {{artist.name}}
@@ -29,7 +31,7 @@
 
                     </div>
                 
-                    <div class="w-200p rounded">
+                    <div class="w-200p rounded flex-none">
                         <img class="rounded" :src="release.images[1].url" alt="cover album">
                     </div>
 
@@ -58,27 +60,37 @@
         data(){
             return{
                 releases: [],
+                count : 0
                 // isLoading: false
             }
         },
         methods: {
             loadReleases(){
                 // this.isLoading = true;
-
+                //on va chercher l'URL de l'api
                 fetch("https://api.spotify.com/v1/browse/new-releases", {
                     method: "GET",
                     headers: {
-                        'Authorization': 'Bearer BQCmY3ZTLRpuadwRVXR7JDs5w-Ko1_GCdrjtFu1FY7QzPlC7qm3ZTgutH7UKNMdLURnax90ei4pfnXKuDCUmnZQUUGq3ZPR6CxTWnBNGGX5-CPfnunO-ZPJahB0vOorT-X_iicy_Q0AUi6RodTs4bgmARA',     
+                        'Authorization': 'Bearer BQAHemi50ppBtMjZt7ygXyLOtTQ1yF3pURu0GGwe60d04731vYpLAOLD8iCYXogO_wC6MtIOIOnszRK-OkqnAviI8nPjKxLq9AF7mSiEyB4t8AMvvdIO7P-t5M4lDbBYGEmKNNcytPB_dm7_2EE1zBi0IQ',     
                     }
                 })
-                .then(response => response.json())
-                .then( (data) => {
-                    this.releases = data.albums.items
-                    // this.isLoading = false
-                });
-            },
+                    // on appelle response qui va le transformer en JSON
+                    .then(response => response.json())
+                    // on va accéder à la data
+                    .then( (data) => {
+                        this.releases = data.albums.items
+                        // this.isLoading = false
+                        console.log(data)
+                    
+                    })
+                    .catch(() => {
+                        console.log('catch')
+                    });
+                    
+                    
+                },
+            }
         }
-    }
 
 </script>
 
